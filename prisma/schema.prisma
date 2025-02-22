@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Alert {
+  id         String     @id // chatId + ticketType
+  ticketType TicketType
+  chatId     String
+  enabled    Boolean
+}
+
+model Inventory {
+  // id         Int        @id @default(autoincrement())
+  ticketType TicketType @id @unique
+  updatedAt  DateTime
+  count      Int
+}
+
+model Tokens {
+  // id        Int       @id @default(autoincrement())
+  tokenType TokenType @id @unique
+  token     String
+  // expiresAt DateTime
+}
+
+model Stats {
+  id         Int        @id @default(autoincrement())
+  ticketType TicketType
+  count      Int
+  timestamp  DateTime
+}
+
+enum TicketType {
+  // BOOM FESTIVAL
+  ENTRANCE
+  // LIZARD CAMP
+  BELL_TENT_3P
+  BELL_TENT_4P
+  DOMO_TENT_6P
+  // WANBLI TIPI CAMP
+  SINGLE_PLACE
+  STAR_TENT_2P
+  STAR_TENT_5P
+  TIPI_2P
+  TIPI_6P
+}
+
+enum TokenType {
+  RECAPTCHA
+  AUTH_TICKETS
+  AUTH_SERVICES
+}
